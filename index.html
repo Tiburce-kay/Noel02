@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Étoile de Noël — Boutique de fêtes</title>
+<style>
+:root{--bg:#08160f;--bg2:#0e2a1e;--red:#c8102e;--gold:#f2c14e;--cream:#fff6e5;--card:rgba(255,246,229,.07);--line:rgba(242,193,78,.28);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--cream);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;overflow-x:hidden;line-height:1.5}
+h1,h2,h3,.logo{font-family:Georgia,'Playfair Display',serif}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;display:flex;align-items:center;justify-content:space-between;padding:14px 5vw;background:rgba(8,22,15,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{font-size:1.4rem;color:var(--gold);letter-spacing:.5px}
+nav{display:flex;gap:26px}
+nav a{color:var(--cream);text-decoration:none;font-size:.95rem;opacity:.85;transition:.2s}
+nav a:hover{color:var(--gold);opacity:1}
+.cartbtn{background:var(--red);color:#fff;border:0;border-radius:30px;padding:10px 18px;font-weight:600;cursor:pointer;transition:.2s}
+.cartbtn:hover{transform:scale(1.06);box-shadow:0 0 20px rgba(200,16,46,.6)}
+.lights{position:absolute;top:0;left:0;right:0;height:34px;display:flex;justify-content:space-around;z-index:5;pointer-events:none}
+.lights i{width:11px;height:16px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;margin-top:14px;animation:tw 2s infinite ease-in-out;position:relative}
+.lights i::before{content:"";position:absolute;top:-8px;left:3px;width:5px;height:8px;background:#333}
+.lights i:nth-child(4n+1){background:#ff3b3b;box-shadow:0 0 14px #ff3b3b}
+.lights i:nth-child(4n+2){background:var(--gold);box-shadow:0 0 14px var(--gold);animation-delay:.5s}
+.lights i:nth-child(4n+3){background:#3bff8a;box-shadow:0 0 14px #3bff8a;animation-delay:1s}
+.lights i:nth-child(4n){background:#4aa8ff;box-shadow:0 0 14px #4aa8ff;animation-delay:1.5s}
+@keyframes tw{0%,100%{opacity:1}50%{opacity:.25}}
+.hero{position:relative;min-height:92vh;display:grid;place-items:center;text-align:center;padding:90px 6vw 160px;overflow:hidden;
+background:radial-gradient(circle at 78% 18%,rgba(255,246,200,.9) 0 3.5%,rgba(255,246,200,.15) 8%,transparent 16%),radial-gradient(ellipse at 50% 110%,#7a1226 0,transparent 55%),linear-gradient(180deg,#050d1c 0,#0b2a3a 55%,#0e3a2a 100%)}
+.stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 80px,#fff,transparent),radial-gradient(1.5px 1.5px at 160px 20px,#ffe9a8,transparent),radial-gradient(1px 1px at 220px 120px,#fff,transparent);background-size:250px 160px;animation:tw 4s infinite}
+.hero .in{position:relative;z-index:3;max-width:820px}
+.tag{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:30px;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px}
+h1{font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.05;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+h1 em{color:var(--gold);font-style:italic}
+.hero p{font-size:1.15rem;opacity:.9;margin:22px auto 34px;max-width:560px}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--red),#e63950);color:#fff;text-decoration:none;padding:15px 34px;border-radius:40px;font-weight:700;border:0;cursor:pointer;box-shadow:0 8px 30px rgba(200,16,46,.5);transition:.25s}
+.btn:hover{transform:translateY(-3px) scale(1.04)}
+.btn.o{background:transparent;border:1.5px solid var(--gold);color:var(--gold);box-shadow:none;margin-left:12px}
+.trees{position:absolute;bottom:0;left:0;width:100%;height:210px;z-index:2}
+.float{position:absolute;font-size:2.4rem;z-index:2;animation:fl 6s infinite ease-in-out;filter:drop-shadow(0 0 12px rgba(242,193,78,.5))}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-22px) rotate(6deg)}}
+.sled{position:absolute;top:16%;left:-15%;font-size:2.6rem;z-index:2;animation:fly 22s linear infinite}
+@keyframes fly{to{left:110%;top:8%}}
+.count{background:linear-gradient(90deg,#5b0a1a,#8f1226,#5b0a1a);text-align:center;padding:22px 5vw;border-block:2px solid var(--gold);position:relative;z-index:3}
+.count b{font-family:Georgia,serif;font-size:1.6rem;color:var(--gold);margin:0 8px}
+.count span{opacity:.85;font-size:.85rem;margin-right:8px}
+section{padding:90px 6vw;position:relative;z-index:3}
+.sh{text-align:center;margin-bottom:44px}
+.sh h2{font-size:clamp(2rem,4vw,3rem);color:var(--gold)}
+.sh p{opacity:.8;margin-top:8px}
+.sh::after{content:"❄ ✦ ❄";display:block;color:var(--gold);margin-top:10px;letter-spacing:8px;font-size:.9rem}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:38px}
+.tabs button{background:var(--card);border:1px solid var(--line);color:var(--cream);padding:9px 22px;border-radius:30px;cursor:pointer;transition:.2s;font-size:.95rem}
+.tabs button.on,.tabs button:hover{background:var(--gold);color:#3a1a00;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px;max-width:1200px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:.35s;backdrop-filter:blur(6px);position:relative}
+.card:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 30px rgba(242,193,78,.2)}
+.pic{height:190px;display:grid;place-items:center;font-size:5rem;position:relative;transition:.4s}
+.card:hover .pic{transform:scale(1.08)}
+.badge{position:absolute;top:12px;left:12px;background:var(--red);color:#fff;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2}
+.info{padding:18px}
+.info h3{font-size:1.15rem}
+.info small{opacity:.7}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.price{color:var(--gold);font-weight:700;font-size:1.1rem}
+.price s{opacity:.5;font-size:.8rem;margin-left:6px;font-weight:400;color:var(--cream)}
+.add{background:var(--red);color:#fff;border:0;width:40px;height:40px;border-radius:50%;font-size:1.3rem;cursor:pointer;transition:.2s}
+.add:hover{transform:rotate(90deg) scale(1.15);background:#e63950}
+.perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:1100px;margin:auto}
+.perk{text-align:center;padding:26px;border:1px dashed var(--line);border-radius:18px}
+.perk div{font-size:2.4rem}
+.perk h3{color:var(--gold);margin:8px 0 4px;font-size:1.1rem}
+.perk p{opacity:.75;font-size:.9rem}
+.news{background:linear-gradient(135deg,rgba(200,16,46,.25),rgba(14,42,30,.9)),radial-gradient(circle at 20% 20%,rgba(242,193,78,.2),transparent 40%);text-align:center;border-block:1px solid var(--line)}
+.news form{display:flex;gap:10px;max-width:480px;margin:24px auto 0;flex-wrap:wrap;justify-content:center}
+.news input{flex:1;min-width:200px;padding:14px 20px;border-radius:40px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--cream);font-size:1rem}
+footer{position:relative;z-index:3;padding:0 6vw calc(26px + env(safe-area-inset-bottom,0px));font-size:.92rem;background:radial-gradient(ellipse 60% 80% at 15% 0,rgba(200,16,46,.22),transparent 70%),radial-gradient(ellipse 50% 70% at 90% 100%,rgba(242,193,78,.1),transparent 70%),linear-gradient(180deg,#0a1a12,#040a07);border-top:2px solid var(--gold);box-shadow:0 -10px 40px rgba(242,193,78,.12)}
+.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:36px;max-width:1200px;margin:auto;padding:86px 0 34px;text-align:left}
+.fb p{opacity:.75;margin:12px 0 18px;max-width:330px}
+.soc{display:flex;gap:10px}
+.soc a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--gold);text-decoration:none;font-weight:700;font-size:.8rem;transition:.25s}
+.soc a:hover{background:var(--gold);color:#3a1a00;transform:translateY(-4px) rotate(-8deg)}
+footer h4{font-family:Georgia,serif;color:var(--gold);font-size:1.1rem;margin-bottom:14px;position:relative;padding-bottom:10px}
+footer h4::after{content:"";position:absolute;left:0;bottom:0;width:34px;height:2px;background:var(--red)}
+.fg>div>a{display:block;color:var(--cream);opacity:.75;text-decoration:none;padding:4px 0;transition:.2s}
+.fg>div>a:hover{color:var(--gold);opacity:1;transform:translateX(6px)}
+.fg>div>p{opacity:.8;padding:4px 0}
+.pay{max-width:1200px;margin:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:22px 0;border-top:1px solid var(--line)}
+.pay>span{opacity:.7;margin-right:6px}
+.pay b{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 14px;font-size:.8rem;letter-spacing:.5px}
+.fbot{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--line);opacity:.8;font-size:.82rem}
+.top{background:var(--gold);color:#3a1a00;border:0;border-radius:30px;padding:9px 18px;font-weight:700;cursor:pointer;transition:.25s}
+.top:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(242,193,78,.4)}
+@media(max-width:900px){.fg{grid-template-columns:1fr 1fr;padding-top:76px}}
+@media(max-width:560px){.fg{grid-template-columns:1fr;gap:26px}.fbot{flex-direction:column;text-align:center}.pay{justify-content:center}}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,100%);background:#0b1f17;border-left:1px solid var(--gold);z-index:100;transform:translateX(105%);transition:.4s;padding:24px;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer h3{color:var(--gold);font-size:1.5rem;margin-bottom:16px}
+#items{flex:1;overflow:auto}
+.it{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.it span:first-child{font-size:2rem}
+.it div{flex:1}
+.it button{background:none;border:1px solid var(--line);color:var(--cream);border-radius:6px;width:26px;height:26px;cursor:pointer}
+.tot{display:flex;justify-content:space-between;font-size:1.2rem;padding:16px 0;color:var(--gold);font-weight:700}
+.x{position:absolute;top:18px;right:20px;background:none;border:0;color:var(--cream);font-size:1.6rem;cursor:pointer}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,120px);background:var(--gold);color:#3a1a00;padding:12px 24px;border-radius:30px;font-weight:700;z-index:120;transition:.4s}
+.toast.on{transform:translate(-50%,0)}
+.rv{opacity:0;transform:translateY(40px);transition:1s}
+.rv.in{opacity:1;transform:none}
+@media(max-width:700px){nav{display:none}.btn.o{margin:12px 0 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+h1 em{background:linear-gradient(90deg,#f2c14e,#fff3c4,#f2c14e);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}
+@keyframes sh{to{background-position:200% 0}}
+.aurora{position:absolute;inset:0;background:radial-gradient(ellipse 60% 30% at 30% 25%,rgba(60,255,160,.22),transparent 70%),radial-gradient(ellipse 50% 25% at 70% 15%,rgba(120,80,255,.2),transparent 70%);filter:blur(30px);animation:au 12s infinite alternate}
+@keyframes au{to{transform:translateX(6%) scaleY(1.2);opacity:.7}}
+.win{animation:tw 3s infinite;filter:drop-shadow(0 0 8px #ffc94d)}
+.card{isolation:isolate}
+.card::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:.7s;pointer-events:none}
+.card:hover::after{left:130%}
+.pic::before{content:"";position:absolute;top:50%;left:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:radial-gradient(circle,rgba(255,240,190,.38),transparent 70%)}
+.pic>span:last-child{position:relative;filter:drop-shadow(0 10px 14px rgba(0,0,0,.5));animation:bob 4s infinite ease-in-out}
+@keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
+.stars5{color:var(--gold);font-size:.8rem;letter-spacing:2px;margin-top:2px}
+.stars5 small{color:var(--cream);letter-spacing:0}
+.bump{animation:bp .4s}
+@keyframes bp{40%{transform:scale(1.25)}}
+header.sc{box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.ship{margin-bottom:12px;font-size:.85rem}
+.bar{height:8px;background:rgba(255,255,255,.12);border-radius:8px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:.5s}
+.promo{display:flex;gap:8px;margin-bottom:8px}
+.promo input{flex:1;padding:10px 14px;border-radius:30px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--cream)}
+.promo button{background:var(--gold);color:#3a1a00;border:0;border-radius:30px;padding:0 18px;font-weight:700;cursor:pointer}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;opacity:0;pointer-events:none;transition:.3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.tm{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;max-width:1100px;margin:auto}
+.q{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;font-style:italic;transition:.3s}
+.q:hover{transform:translateY(-6px);border-color:var(--gold)}
+.q b{display:block;margin-top:12px;font-style:normal;color:var(--gold);font-size:.9rem}
+
+.card{background:#fff;border:1px solid #f0e3c8;color:#2a1a10;backdrop-filter:none;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.card:hover{box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 30px rgba(242,193,78,.35)}
+.info h3{color:#2a1a10}
+.info small{color:#7a6a58;opacity:1}
+.price{color:#b30d26}
+.price s{color:#9a8a78;opacity:1}
+.stars5{color:#e6a817}
+.stars5 small{color:#7a6a58}
+.row{gap:8px;flex-wrap:wrap}
+img,svg{max-width:100%}
+@media(max-width:900px){section{padding:64px 5vw}.float{font-size:1.9rem}}
+@media(max-width:700px){
+header{padding:10px 4vw}.logo{font-size:1.1rem}.cartbtn{padding:8px 14px;font-size:.9rem}
+.hero{min-height:auto;padding:80px 5vw 130px}
+.hero p{font-size:1rem;margin:16px auto 26px}
+.tag{font-size:.72rem;letter-spacing:1px;margin-bottom:16px}
+.btn{padding:13px 26px}
+.trees{height:150px}
+.float{display:none}
+.lights i:nth-child(even){display:none}
+.sled{font-size:1.8rem}
+.count{padding:16px 4vw;font-size:.9rem;line-height:2}
+.count b{font-size:1.2rem;margin:0 4px}
+.grid{grid-template-columns:repeat(2,1fr);gap:14px}
+.pic{height:130px;font-size:3.4rem}
+.info{padding:12px}
+.info h3{font-size:.95rem}
+.row{margin-top:10px}
+.price{font-size:.95rem}
+.price s{display:block;margin:0}
+.add{width:36px;height:36px}
+.tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px}
+.tabs button{white-space:nowrap}
+.news form{flex-direction:column}
+.news input,.news .btn{width:100%}
+.drawer{padding:18px}
+.sh{margin-bottom:30px}
+}
+@media(max-width:380px){.grid{grid-template-columns:1fr}.logo{font-size:1rem}}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<header>
+  <div class="logo">✦ Étoile de Noël</div>
+  <nav><a href="#boutique">Boutique</a><a href="#avantages">Avantages</a><a href="#news">Newsletter</a></nav>
+  <button class="cartbtn" onclick="drawer(1)">🛒 Panier (<span id="n">0</span>)</button>
+</header>
+
+<div class="hero">
+  <div class="lights" id="lights"></div>
+  <div class="stars"></div><div class="aurora"></div>
+  <div class="sled">🦌🦌🛷🎅</div>
+  <div class="float" style="left:8%;top:30%">🎄</div>
+  <div class="float" style="right:9%;top:48%;animation-delay:1.5s">🎁</div>
+  <div class="float" style="left:16%;top:64%;animation-delay:3s">⭐</div>
+  <div class="in">
+    <span class="tag">Collection Noël 2026</span>
+    <h1>Faites entrer la <em>magie</em> de Noël chez vous</h1>
+    <p>Décorations scintillantes, cadeaux inoubliables et gourmandises de fête. Livraison avant le 24 décembre.</p>
+    <a class="btn" href="#boutique">Découvrir la boutique</a><a class="btn o" href="#avantages">Nos avantages</a>
+  </div>
+  <svg class="trees" viewBox="0 0 1200 210" preserveAspectRatio="xMidYMax slice">
+<defs><g id="t"><polygon points="0,-120 26,-72 12,-72 36,-32 16,-32 44,10 -44,10 -16,-32 -36,-32 -12,-72 -26,-72"/><rect x="-5" y="10" width="10" height="18"/></g></defs>
+<g fill="#0c3324"><use href="#t" transform="translate(0,178) scale(0.77)"/><use href="#t" transform="translate(70,178) scale(0.85)"/><use href="#t" transform="translate(140,178) scale(0.94)"/><use href="#t" transform="translate(210,178) scale(0.81)"/><use href="#t" transform="translate(280,178) scale(0.89)"/><use href="#t" transform="translate(350,178) scale(0.77)"/><use href="#t" transform="translate(420,178) scale(0.85)"/><use href="#t" transform="translate(490,178) scale(0.94)"/><use href="#t" transform="translate(560,178) scale(0.81)"/><use href="#t" transform="translate(630,178) scale(0.89)"/><use href="#t" transform="translate(700,178) scale(0.77)"/><use href="#t" transform="translate(770,178) scale(0.85)"/><use href="#t" transform="translate(840,178) scale(0.94)"/><use href="#t" transform="translate(910,178) scale(0.81)"/><use href="#t" transform="translate(980,178) scale(0.89)"/><use href="#t" transform="translate(1050,178) scale(0.77)"/><use href="#t" transform="translate(1120,178) scale(0.85)"/><use href="#t" transform="translate(1190,178) scale(0.94)"/></g>
+<g transform="translate(985,196)"><rect x="-42" y="-42" width="84" height="42" fill="#3a1d0e"/><polygon points="-52,-42 0,-82 52,-42" fill="#eef6ff"/><rect x="-11" y="-32" width="22" height="20" fill="#ffc94d" class="win"/></g>
+<g fill="#05170f"><use href="#t" transform="translate(35,204) scale(1.03)"/><use href="#t" transform="translate(130,204) scale(1.15)"/><use href="#t" transform="translate(225,204) scale(1.26)"/><use href="#t" transform="translate(320,204) scale(1.09)"/><use href="#t" transform="translate(415,204) scale(1.21)"/><use href="#t" transform="translate(510,204) scale(1.03)"/><use href="#t" transform="translate(605,204) scale(1.15)"/><use href="#t" transform="translate(700,204) scale(1.26)"/><use href="#t" transform="translate(795,204) scale(1.09)"/><use href="#t" transform="translate(890,204) scale(1.21)"/><use href="#t" transform="translate(985,204) scale(1.03)"/><use href="#t" transform="translate(1080,204) scale(1.15)"/><use href="#t" transform="translate(1175,204) scale(1.26)"/></g>
+<path d="M0 210V178Q150 150 300 176T600 172T900 178T1200 168V210z" fill="#eef6ff"/>
+<path d="M0 210V194Q200 174 400 192T800 188T1200 190V210z" fill="#fff"/></svg>
+</div>
+
+<div class="count"><span>🎅 Noël dans</span><b id="d">--</b><span>j</span><b id="h">--</b><span>h</span><b id="m">--</b><span>min</span><b id="s">--</b><span>s</span> — <span style="margin-left:8px">Code <b style="font-size:1.1rem">NOEL20</b> : -20 %</span></div>
+
+<section id="boutique">
+  <div class="sh rv"><h2>La Boutique des Fêtes</h2><p>Sélectionnés avec amour par les lutins de Noël</p></div>
+  <div class="tabs rv" id="tabs"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="avantages" style="background:linear-gradient(180deg,transparent,rgba(200,16,46,.12),transparent)">
+  <div class="sh rv"><h2>Pourquoi nous choisir</h2></div>
+  <div class="perks rv">
+    <div class="perk"><div>🚚</div><h3>Livraison express</h3><p>Reçue avant Noël, partout au Bénin</p></div>
+    <div class="perk"><div>🎀</div><h3>Emballage cadeau</h3><p>Papier et ruban offerts</p></div>
+    <div class="perk"><div>🔒</div><h3>Paiement sécurisé</h3><p>Mobile Money, carte ou à la livraison</p></div>
+    <div class="perk"><div>💝</div><h3>Satisfait ou remboursé</h3><p>Retour gratuit sous 14 jours</p></div>
+  </div>
+</section>
+
+<section><div class="sh rv"><h2>Ils ont fêté avec nous</h2></div><div class="tm rv">
+<div class="q">“Le sapin est magnifique et il a été livré en 2 jours. Les enfants n'en reviennent pas !”<b>— Awa, Cotonou ★★★★★</b></div>
+<div class="q">“Le coffret prestige a fait sensation. Emballage soigné, service impeccable.”<b>— Rodrigue, Porto-Novo ★★★★★</b></div>
+<div class="q">“Des guirlandes superbes et un paiement très simple. Je recommande !”<b>— Nadège, Abomey-Calavi ★★★★★</b></div>
+</div></section>
+<section class="news" id="news">
+  <div class="sh rv"><h2>Le Club du Père Noël</h2><p>Recevez -10 % et nos offres exclusives</p></div>
+  <form class="rv" onsubmit="event.preventDefault();toast('🎅 Merci, bienvenue au Club !');this.reset()">
+    <input type="email" required placeholder="Votre adresse e-mail"><button class="btn">Je m'inscris</button>
+  </form>
+</section>
+
+<footer>
+  <div class="lights"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="fg">
+    <div class="fb"><div class="logo">✦ Étoile de Noël</div><p>Votre boutique de fêtes : décorations, cadeaux et gourmandises pour un Noël inoubliable, livrés avec soin.</p>
+      <div class="soc"><a href="#" aria-label="Facebook">Fb</a><a href="#" aria-label="Instagram">Ig</a><a href="#" aria-label="WhatsApp">Wa</a><a href="#" aria-label="TikTok">Tk</a></div></div>
+    <div><h4>Boutique</h4><a href="#boutique" onclick="setCat('Décoration')">Décorations</a><a href="#boutique" onclick="setCat('Cadeaux')">Cadeaux</a><a href="#boutique" onclick="setCat('Gourmandises')">Gourmandises</a><a href="#boutique" onclick="setCat('Tous')">Tout voir</a></div>
+    <div><h4>Aide</h4><a href="#avantages">Livraison</a><a href="#avantages">Paiement</a><a href="#avantages">Retours</a><a href="#news">Club du Père Noël</a></div>
+    <div><h4>Contact</h4><p>📍 Cotonou, Bénin</p><p>📞 +229 00 00 00 00</p><p>✉️ contact@etoile-noel.bj</p><p>🕘 Lun–Sam · 8h–19h</p></div>
+  </div>
+  <div class="pay"><span>Paiements acceptés</span><b>MTN MoMo</b><b>Moov Money</b><b>VISA</b><b>Mastercard</b><b>À la livraison</b></div>
+  <div class="fbot"><span>© 2026 Étoile de Noël · Tous droits réservés · CGV</span><span>Fait avec ❤️ et beaucoup de neige ❄️</span><button class="top" onclick="scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button></div>
+</footer>
+
+<div class="scrim" id="sc" onclick="drawer(0)"></div>
+<aside class="drawer" id="dr">
+  <button class="x" onclick="drawer(0)">×</button>
+  <h3>🎁 Votre panier</h3>
+  <div id="items"></div>
+  <div class="ship"><span id="ship"></span><div class="bar"><i id="bar"></i></div></div>
+  <div class="promo"><input id="code" placeholder="Code promo (NOEL20)"><button onclick="promo()">OK</button></div>
+  <div class="tot"><span>Total</span><span id="tot">0 FCFA</span></div>
+  <button class="btn" onclick="pay()">Commander</button>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const P=[
+{n:"Sapin lumineux 180 cm",c:"Décoration",e:"🎄",p:45000,o:60000,g:"linear-gradient(135deg,#0e5a3a,#0a2a1e)",b:"-25%"},
+{n:"Guirlande LED féerique",c:"Décoration",e:"✨",p:8500,g:"linear-gradient(135deg,#7a5a10,#2a1a05)"},
+{n:"Boules de Noël dorées (12)",c:"Décoration",e:"🔮",p:12000,g:"linear-gradient(135deg,#8f1226,#3a0a14)",b:"Nouveau"},
+{n:"Couronne de porte",c:"Décoration",e:"🎀",p:15500,g:"linear-gradient(135deg,#1a6b3c,#5b0a1a)"},
+{n:"Coffret Cadeau Prestige",c:"Cadeaux",e:"🎁",p:32000,g:"linear-gradient(135deg,#8f1226,#2a0a10)",b:"Top vente"},
+{n:"Peluche Renne géant",c:"Cadeaux",e:"🦌",p:18000,g:"linear-gradient(135deg,#6b4423,#2a1a0e)"},
+{n:"Bougie Vanille & Cannelle",c:"Cadeaux",e:"🕯️",p:6500,g:"linear-gradient(135deg,#7a5a10,#3a2a08)"},
+{n:"Boule à neige musicale",c:"Cadeaux",e:"🔔",p:14000,o:18000,g:"linear-gradient(135deg,#1a4a7a,#0a1a30)",b:"-22%"},
+{n:"Panier gourmand de fête",c:"Gourmandises",e:"🍪",p:28000,g:"linear-gradient(135deg,#7a3a10,#2a1408)"},
+{n:"Chocolats du Père Noël",c:"Gourmandises",e:"🍫",p:9500,g:"linear-gradient(135deg,#4a2010,#1a0a05)"},
+{n:"Maison en pain d'épices",c:"Gourmandises",e:"🏠",p:11000,g:"linear-gradient(135deg,#8f4a1a,#3a1a08)",b:"Nouveau"},
+{n:"Cannes en sucre (lot)",c:"Gourmandises",e:"🍭",p:4500,g:"linear-gradient(135deg,#c8102e,#5b0a1a)"}];
+const $=id=>document.getElementById(id),fmt=v=>v.toLocaleString('fr-FR')+' FCFA';
+let cart={},cat="Tous";
+const cats=["Tous","Décoration","Cadeaux","Gourmandises"];
+$('tabs').innerHTML=cats.map(c=>`<button class="${c==cat?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+function setCat(c){cat=c;[...$('tabs').children].forEach(b=>b.classList.toggle('on',b.textContent==c));render()}
+function render(){
+ $('grid').innerHTML=P.map((x,i)=>({x,i})).filter(o=>cat=="Tous"||o.x.c==cat).map(({x,i})=>`
+ <div class="card rv"><div class="pic" style="background:${x.g}">${x.b?`<span class="badge">${x.b}</span>`:''}<span>${x.e}</span></div>
+ <div class="info"><small>${x.c}</small><h3>${x.n}</h3><div class="stars5">★★★★★ <small>(${20+i*7})</small></div><div class="row"><span class="price">${fmt(x.p)}${x.o?`<s>${fmt(x.o)}</s>`:''}</span><button class="add" onclick="add(${i})" aria-label="Ajouter">+</button></div></div></div>`).join('');
+ reveal()}
+function add(i){cart[i]=(cart[i]||0)+1;const b=document.querySelector('.cartbtn');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');upd();toast('🎄 '+P[i].n+' ajouté !')}
+function chg(i,d){cart[i]+=d;if(cart[i]<=0)delete cart[i];upd()}
+let disc=0;
+function upd(){
+ const k=Object.keys(cart);let t=0,c=0;
+ $('items').innerHTML=k.length?k.map(i=>{const q=cart[i],x=P[i];t+=x.p*q;c+=q;return `<div class="it"><span>${x.e}</span><div><b>${x.n}</b><br><small>${fmt(x.p)}</small></div><button onclick="chg(${i},-1)">−</button><b>${q}</b><button onclick="chg(${i},1)">+</button></div>`}).join(''):'<p style="opacity:.7;padding:20px 0">Votre panier est vide… Le Père Noël attend vos envies ! 🎅</p>';
+ const d=Math.round(t*disc),f=t-d,goal=50000;
+ $('bar').style.width=Math.min(100,f/goal*100)+'%';
+ $('ship').textContent=f>=goal?'🚚 Livraison offerte !':'Plus que '+fmt(goal-f)+' pour la livraison offerte';
+ $('n').textContent=c;$('tot').textContent=fmt(f)+(d?' (−'+fmt(d)+')':'')}
+function promo(){const v=$('code').value.trim().toUpperCase();if(v=='NOEL20'){disc=.2;toast('🎅 Code appliqué : -20 %')}else{disc=0;toast('Code invalide')}upd()}
+addEventListener('scroll',()=>document.querySelector('header').classList.toggle('sc',scrollY>20));
+function drawer(o){$('dr').classList.toggle('open',!!o);$('sc').classList.toggle('on',!!o)}
+function pay(){if(!Object.keys(cart).length)return toast('Ajoutez d\'abord un article 🎁');cart={};disc=0;upd();drawer(0);toast('🎉 Commande confirmée, joyeux Noël !')}
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+$('lights').innerHTML='<i></i>'.repeat(30);
+function tick(){const now=new Date(),y=now.getFullYear();let x=new Date(y,11,25);if(x<now)x=new Date(y+1,11,25);const s=Math.floor((x-now)/1000);
+ $('d').textContent=Math.floor(s/86400);$('h').textContent=String(Math.floor(s%86400/3600)).padStart(2,'0');$('m').textContent=String(Math.floor(s%3600/60)).padStart(2,'0');$('s').textContent=String(s%60).padStart(2,'0')}
+tick();setInterval(tick,1000);
+let io;function reveal(){io=io||new IntersectionObserver(e=>e.forEach(a=>{if(a.isIntersecting){a.target.classList.add('in');io.unobserve(a.target)}}),{threshold:.12});document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el))}
+// Neige
+const cv=$('snow'),g=cv.getContext('2d');let W,H,fl=[];
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();addEventListener('resize',rs);
+for(let i=0;i<110;i++)fl.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*3+1,s:Math.random()*1+.4,d:Math.random()*Math.PI*2});
+(function loop(){g.clearRect(0,0,W,H);g.fillStyle='rgba(255,255,255,.85)';
+ fl.forEach(f=>{f.y+=f.s;f.d+=.01;f.x+=Math.sin(f.d)*.6;if(f.y>H){f.y=-5;f.x=Math.random()*W}g.beginPath();g.arc(f.x,f.y,f.r,0,7);g.fill()});
+ requestAnimationFrame(loop)})();
+render();upd();reveal();
+</script>
+</body>
+</html>
